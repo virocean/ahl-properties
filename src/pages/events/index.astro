@@ -1,0 +1,60 @@
+---
+import Layout from "../../layouts/layout.astro"
+import Intro from "../../components/Intro.vue"
+import {Directus} from '@directus/sdk'
+
+const data_url = import.meta.env.PUBLIC_CMS_LOCATION
+
+const directus = new Directus(data_url)
+
+const store = await directus.items('events').readByQuery({
+	filter:{
+		"_and":[
+			{
+				"status":{
+					"_eq":"published"
+				}
+			}
+		]
+	},
+	limit:30,
+	sort:"-date_created"
+})
+
+const data = store.data
+
+const setExcerpt = (text) => {
+	return `${text.slice(0,128)} [&hellip;]`
+}
+---
+
+<Layout title="Events " description="At AHL Properties, we participate in various events that help our customers to get to know us better">
+  <Intro 
+  	background="/banner1.webp"
+  	title="News and Events"
+		description=""
+  />
+  <!--Content here -->
+  <div class="container mx-auto p-4">
+  	<div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mt-6 p-2" v-if="data[0]">
+  		{
+  			data.map((item) => (
+					<a href={`/events/${item.slug}`} class="bg-gray-100 dark:bg-stone-900 rounded-xl shadow-md">
+						<figure>
+		          <img class="w-full rounded-tr-xl rounded-tl-xl" src={`${data_url}assets/${item.featured_image}?fit=cover&height=250&width=400`} alt={item.blog_title}>
+		          <div class="px-2">
+		            <h2 class="font-black pb-2 dark:text-white">
+		              {item.event_name}
+		            </h2>
+		            <figcaption class="font-medium font-serif">
+		              <div set:html={setExcerpt(item.event_description)} class="dark:text-white"></div>
+		            </figcaption>
+		          </div>
+		        </figure>
+		      </a>
+  			))
+  		}
+		</div>
+	</div>
+</Layout>
+</template>

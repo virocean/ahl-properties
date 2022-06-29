@@ -1,0 +1,153 @@
+---
+import Layout from '../../layouts/layout.astro'
+import Intro from '../../components/Intro.vue'
+import Whatsapp from '../../components/Whatsapp.vue'
+import BookProperty from '../../components/BookProperty.vue'
+import {Directus} from '@directus/sdk'
+import Slider from '../../components/Slider.vue'
+
+// src/pages/property/[property].astro
+export async function getStaticPaths() {
+  const directus = new Directus(import.meta.env.PUBLIC_CMS_LOCATION)
+
+	const plots_data = await directus.items('plots').readByQuery({
+  filter:{
+    "_and":[
+      {
+        "status":{
+          "_eq":"published"
+        }
+      }
+    ]
+  },
+  fields:['slug'],
+  limit:-1,
+  sort:"-date_created"
+	})
+
+	const plots = plots_data.data
+
+  let store = []
+
+  plots.map((item) => {
+    let data = {}
+    data.params = {}
+    data.params.property = item.slug
+    store.push(data)
+  })
+  
+  return store
+}
+
+const {property} = Astro.params
+const data_url = import.meta.env.PUBLIC_CMS_LOCATION
+const directus = new Directus(import.meta.env.PUBLIC_CMS_LOCATION)
+
+const plots_data = await directus.items('plots').readByQuery({
+	filter:{
+		"_and":[
+			{
+				"status":{
+					"_eq":"published"
+				}
+			},
+			{
+				"slug":{
+					"_eq":property
+				}
+			}
+		]
+	},
+	fields:['plot_name,plot_location,plot_brief,plot_price,suitability,plots_files.*,plot_description,slug,plot_meta_description,plot_map,featured_image'],
+	deep:{
+    'plots_files':{
+      "_limit":15
+    }
+  }
+})
+
+const plot = plots_data.data[0]
+---
+
+<Layout title={plot.plot_name} description={plot.plot_meta_description}>
+	<Intro 
+  	background={`${data_url}assets/${plot.featured_image}?fit=cover&height=720&width=1280&format=webp`}
+  	title={plot.plot_name}
+		description={plot.plot_brief}
+  />
+  <div class="container mx-auto my-6">
+  	<h2 class="text-2xl md:text-3xl lg:text-4xl uppercase text-center dark:text-white">
+      Take a tour
+    </h2>
+    <div class="grid lg:grid-cols-4 gap-2 my-2">
+    	<div class="bg-white dark:bg-stone-700 p-2 shadow-md rounded-lg lg:col-span-3 relative">
+	    	<Slider 
+			  	client:load 
+			  	totalpics={plot.plots_files.length}
+			  	files={plot.plots_files}
+			  	url={import.meta.env.PUBLIC_CMS_LOCATION}
+			  />
+			</div
+			<div>
+	    	<BookProperty 
+	      	client:load
+	      	classes="bg-white dark:bg-stone-900 shadow-md rounded-lg" 
+	      />
+			</div>
+    </div>
+    <div class="my-12 bg-stone-100 dark:bg-stone-900 shadow-md rounded-md">
+    	<h2 class="text-2xl md:text-3xl lg:text-4xl capitalize text-center dark:text-white font-semibold">
+        Property map
+      </h2>
+      <div class="lg:h-96 grid place-content-center place-items-center">
+	      <img src={`${data_url}assets/${plot.plot_map}`} class="w-full bg-cover lg:h-96">
+	      
+    	</div>
+    </div>
+    <div class="mt-2 text-lg bg-white dark:bg-stone-800 shadow-md rounded p-2 dark:text-white mt-6">
+      <h2 class="text-2xl md:text-3xl lg:text-4xl lg:font-black capitalize text-center dark:text-white mt-3 pb-4">
+        Property Details
+      </h2>
+      <div class="grid place-content-center">
+      	<div set:html={plot.plot_description} class="prose dark:prose-invert"></div>
+      </div>
+    </div>
+  </div>
+  <!-- This example requires Tailwind CSS v2.0+ -->
+	<div class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+	  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+	    <!--
+	      Background overlay, show/hide based on modal state.
+
+	      Entering: "ease-out duration-300"
+	        From: "opacity-0"
+	        To: "opacity-100"
+	      Leaving: "ease-in duration-200"
+	        From: "opacity-100"
+	        To: "opacity-0"
+	    -->
+	    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+	    <!-- This element is to trick the browser into centering the modal contents. -->
+	    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+	    <!--
+	      Modal panel, show/hide based on modal state.
+
+	      Entering: "ease-out duration-300"
+	        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+	        To: "opacity-100 translate-y-0 sm:scale-100"
+	      Leaving: "ease-in duration-200"
+	        From: "opacity-100 translate-y-0 sm:scale-100"
+	        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+	    -->
+	    <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-4 sm:align-middle sm:max-w-4xl sm:w-full">
+	      <img :src="zoom_url" class="w-full h-full">
+	      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+	        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-amber-600 text-base font-medium text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 sm:ml-3 sm:w-auto sm:text-sm" @click="showModal = false">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  <Whatsapp client:load />
+</Layout>

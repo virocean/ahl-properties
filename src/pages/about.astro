@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/layout.astro'
+import Intro from '../components/Intro.vue'
+import Whatsapp from '../components/Whatsapp.vue'
+
+const faqs = [
+	{
+		"question":"How are site visits booked?",
+		"answer":"You will begin by filling our online form, calling us or sending us a Whatsapp message indicating your intention to view the property and the date for the intended visit."
+	},
+	{
+		"question":"Are site visits free?",
+		"answer":"Yes they are. The only requirement is that you will have to pay for your own transportation to the property"
+	},
+	{
+		"question":"What if I want to view the property and I do not live nearby?",
+		"answer":"We provide all interested parties with accomodation and meals so that they may enjoy their site visit fully"
+	}
+]
+---
+<Layout title="About Us | AHL Properties" description="AHL Properties is a real estate company based in Nairobi Kenya specializing in buying and selling of beach Properties at the coast of Kenya">
+	<Intro 
+  	background="/banner001.webp"
+  	title="About AHL Properties"
+		description=""
+	/>
+	<div class="container mx-auto p-2">
+		<h2 class="text-2xl font-semibold text-center dark:text-white mt-4">
+			Why we do what we do
+		</h2>
+ 		<div class="grid gap-2 p-4 bg-white dark:bg-stone-900 shadow-md hover:shadow-sm my-4 rounded-lg">
+  		<p class="text-stone-800 text-lg font-regular dark:text-white text-center">
+  			At AHL Properties, we believe everyone deserves the luxury to live by the beach.
+				Our drive is the thought that we could offer you an opportunity to live experiencing priceless sunset views, the still and calm of the ocean, and a life that is seemingly dreamy. We strive to bring you carefully selected, premium beach plots situated at the coast of Kenya.
+  		</p>
+  	</div>
+  </div>
+  <div class="container mx-auto p-2">
+  	<h2 class="text-2xl font-semibold text-center dark:text-white my-4">
+			Core values
+		</h2>
+    <div class="grid lg:grid-cols-4 gap-4">
+      <div class="text-center bg-white dark:bg-stone-900 dark:text-white shadow-md rounded-lg">
+        <div class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold">
+            	Efficiency
+            </h2>
+            <p class="text-lg mt-2 mb-4">
+              We bring our best to ensure customer satisfaction
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center bg-white dark:bg-stone-900 dark:text-white shadow-md rounded-lg">
+        <div class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold">
+            	Integrity
+            </h2>
+            <p class="text-lg mt-2 mb-4">
+              We say what we mean and we mean what we say
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center bg-white dark:bg-stone-900 dark:text-white shadow-md rounded-lg">
+        <div
+          class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold">
+            	Trust
+            </h2>
+            <p class="text-lg mt-2 mb-4">
+              Our relationships are built on earned trust
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center bg-white dark:bg-stone-900 dark:text-white shadow-md rounded-lg">
+        <div
+          class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold">
+            	Honesty
+            </h2>
+            <p class="text-lg mt-2 mb-4">
+              What you see is what you get
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto p-2">
+    <div class="grid md:grid-cols-3 gap-2 lg:gap-x-6 mt-4">
+      <div class="grid place-content-center bg-white dark:bg-stone-800 shadow-md p-2 rounded-xl">
+        <div class="text-white p-3 text-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600 mx-auto">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <span class="text-amber-600 dark:text-white font-black lg:text-4xl text-center">
+          10
+        </span>
+        <span class="text-stone-800 dark:text-white lg:text-2xl font-semibold">
+          Projects Done
+        </span>
+      </div>
+      <div class="grid place-content-center bg-white dark:bg-stone-800 shadow-md p-2 rounded-xl">
+        <div class="text-white p-3 text-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600 mx-auto">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        </div>
+        <span class="text-amber-600 dark:text-white font-black lg:text-4xl text-center">
+          100+
+        </span>
+        <span class="text-stone-800 dark:text-white lg:text-2xl font-semibold">
+          Title Deeds
+        </span>
+      </div>
+      <div class="grid place-content-center bg-white dark:bg-stone-800 shadow-md p-2 rounded-xl">
+        <div class="text-white p-3 text-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600 mx-auto">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        </div>
+        <span class="text-amber-600 dark:text-white font-black lg:text-4xl text-center">
+          5+
+        </span>
+        <span class="text-stone-800 dark:text-white lg:text-2xl font-semibold">
+          Years Experience
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto p-2">
+    <div class="grid gap-2 p-4 bg-white dark:bg-stone-900 shadow-md hover:shadow-sm my-4 rounded-lg">
+  		<h2 class="text-2xl font-semibold text-center dark:text-white">
+  			Frequently asked questions
+  		</h2>
+  		{
+  			faqs.map((item) => (
+		  		<div class="border-2 border-stone-300 p-2 cursor-pointer dark:text-white">
+		  			<div class="font-semibold text-lg">
+		  				{item.question}
+		  			</div>
+		  			<span class="text-stone-800 dark:text-white">
+		  				{item.answer}
+		  			</span>
+		  		</div>
+  			))
+  		}
+	  	<a href="/faqs">
+        <button class="bg-amber-600 text-white text-lg p-2 font-semibold shadow-md">
+          See All FAQs
+        </button>
+      </a>
+  	</div>
+  </div>
+  <Whatsapp client:load />
+</Layout>

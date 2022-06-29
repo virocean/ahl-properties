@@ -1,0 +1,77 @@
+---
+import {Directus} from "@directus/sdk"
+import Layout from "../../layouts/layout.astro"
+import Intro from "../../components/Intro.vue"
+
+// src/pages/events/[event].astro
+export async function getStaticPaths() {
+  const directus = new Directus(import.meta.env.PUBLIC_CMS_LOCATION)
+
+	const events_data = await directus.items('events').readByQuery({
+	  filter:{
+	    "_and":[
+	      {
+	        "status":{
+	          "_eq":"published"
+	        }
+	      }
+	    ]
+	  },
+	  fields:['slug'],
+	  limit:-1,
+	  sort:"-date_created"
+	})
+
+	const events = events_data.data
+
+  let store = []
+
+  events.map((item) => {
+    let data = {}
+    data.params = {}
+    data.params.event = item.slug
+    store.push(data)
+  })
+  
+  return store
+}
+
+const data_url = import.meta.env.PUBLIC_CMS_LOCATION
+const {event} = Astro.params
+
+const directus = new Directus(data_url)
+
+const store = await directus.items('events').readByQuery({
+	filter:{
+		"_and":[
+			{
+				"status":{
+					"_eq":"published"
+				}
+			},
+			{
+				"slug":{
+					"_eq": event
+				}
+			}
+		]
+	}
+})
+
+const data = store.data[0]
+---
+
+<Layout title={data.event_name} description={data.event_meta_description}>
+  <Intro 
+  	background={`${data_url}assets/${data.featured_image}?fit=cover&height=512&width=720`}
+  	title={data.event_name}
+		description=""
+  />
+  <div class="container mx-auto my-4 p-4">
+		<div class="grid gap-6 place-items-center dark:bg-stone-900 p-2 rounded-lg">
+			<div class="grid lg:max-w-3xl place-items-center">
+				<div class="prose lg:prose-lg leading-loose dark:prose-invert" set:html="data.event_description"></div>
+			</div>
+		</div>
+	</div>
+</Layout>

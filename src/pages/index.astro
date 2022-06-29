@@ -1,0 +1,233 @@
+---
+import Layout from "../layouts/layout.astro"
+import Whatsapp from "../components/Whatsapp.vue"
+import Carousel from "../components/Carousel.vue"
+import {Directus} from "@directus/sdk"
+
+const url = import.meta.env.PUBLIC_CMS_LOCATION
+const directus = new Directus(url)
+
+const gallery_data = await directus.items('gallery').readByQuery({
+  filter:{
+    "_and":[
+      {
+        "status":{
+          "_eq":"published"
+        }
+      }
+    ]
+  },
+  fields:['label,slug,featured_image'],
+  limit:3,
+  sort:"-date_created"
+})
+
+const events_data = await directus.items('events').readByQuery({
+  filter:{
+    "_and":[
+      {
+        "status":{
+          "_eq":"published"
+        }
+      }
+    ]
+  },
+  sort:"-date_created",
+  limit:3
+})
+
+const gallery = gallery_data.data
+const events = events_data.data
+
+const setExcerpt = (text) => {
+  return `${text.slice(0,256)} [&hellip;]`
+}
+---
+
+<Layout title="AHL Properties" description="Affordable value-added plots for sale in Malindi. There are ready title deeds available and the property is located close to the ocean in a serene environment">
+  <Carousel client:load />
+  <h2 class="text-center text-2xl mt-6 font-semibold uppercase p-2 dark:text-white">
+    Our property
+  </h2>
+  <div class="bg-white dark:bg-stone-900">
+    <div class="grid lg:grid-cols-2 gap-x-2 gap-y-4 bg-white dark:bg-stone-900 shadow-md">
+      <div class="mt-0 order-last lg:order-first">
+        <video class="hidden lg:flex w-full h-full" controls>
+          <source src={`${url}assets/d423143c-5ebb-4fe9-a2da-a5f5783c8f72`} type="video/mp4">
+          Your browser does not support HTML video.
+        </video>
+      </div>
+      <div class="px-4">
+        <h1 class="mt-8 lg:hidden text-stone-700 text-3xl font-semibold uppercase text-center dark:text-white">
+          Welcome to AHL Properties
+        </h1>
+        <p class="pt-2 lg:hidden text-stone-800 font-light text-center dark:text-white">
+          Take a quick look at the property available for sale right now
+        </p>
+        <video class="lg:hidden w-full" controls>
+          <source src={`${url}assets/d423143c-5ebb-4fe9-a2da-a5f5783c8f72`} type="video/mp4">
+          Your browser does not support HTML video.
+        </video>
+        <h2 class="mt-4 sm:mt-0 text-stone-700 text-2xl font-semibold capitalize dark:text-white">
+          property features
+        </h2>
+        <div class="tracking-widest">
+          <ul class="text-stone-800 dark:text-white text-base">
+            <li class="my-4">(a) 50 * 100 beach plots</li>
+            <li class="my-4">(b) Connected to the grid (Power)</li>
+            <li class="my-4">(c) Borehole</li>
+            <li class="my-4">(d) Gated community setting</li>
+            <li class="my-4">(e) 30km from Malindi airport</li>
+            <li class="my-4">(f) 140M from the beach</li>
+          </ul>
+        </div>
+        <div class="grid place-items-start mt-8">
+          <a href="/property">
+            <button class="bg-amber-800 text-white text-lg p-2 font-semibold shadow-md">
+              Property Details
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="text-center mt-2 text-2xl font-semibold uppercase p-2 dark:text-white">
+      Get this property
+    </h2>
+  <div class="relative pb-4 flex content-center items-center justify-center">
+    <div class="absolute top-0 lg:mt-1 w-full h-96 bg-center bg-cover" style="background-image: url(/premium-beach.webp)">
+      <span
+        id="blackOverlay"
+        class="w-full h-full absolute bg-black bg-opacity-40"
+      ></span>
+    </div>
+    <div class="container relative mx-auto h-96">
+      <div class="grid place-items-center place-content-center gap-4 lg:mt-1 h-full">
+        <div class="px-4 col-span-3">
+          <div class="md:pr-12 mt-6 lg:mt-2 rounded-md p-2 bg-opacity-60">
+            <h1 class="text-white font-extrabold text-2xl md:text-3xl lg:text-4xl uppercase lg:py-3 text-center">
+              Own a piece of Malindi<br> for KSH 595,000 Only
+            </h1>
+          </div>
+          <div class="grid place-items-center">
+            <a href="/property">
+              <button class="bg-amber-800 text-white text-lg p-2 font-semibold shadow-md rounded-full px-4">
+                View Property
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto p-2">
+    <h2 class="text-center text-2xl font-semibold uppercase p-2 dark:text-white">
+      What makes us unique
+    </h2>
+    <div class="grid lg:grid-cols-3 gap-4">
+      <div class="text-center bg-white dark:bg-stone-900 shadow-md rounded-lg">
+        <div
+          class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold dark:text-white capitalize">
+              Customer Relationships
+            </h2>
+            <p class="text-lg mt-2 mb-4 dark:text-white">
+              We believe in friendships. Our clients are our closest <span class="italic">"Marafiki".</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center bg-white dark:bg-stone-900 shadow-md rounded-lg">
+        <div class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold dark:text-white capitalize">
+              Professionalism
+            </h2>
+            <p class="text-lg mt-2 mb-4 dark:text-white">
+              We sell what we know and own.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center bg-white dark:bg-stone-900 shadow-md rounded-lg">
+        <div class="relative flex flex-col min-w-0 break-words w-full">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-md rounded-full bg-amber-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+            </div>
+            <h2 class="text-xl font-semibold dark:text-white capitalize">
+              The experience
+            </h2>
+            <p class="text-lg mt-2 mb-4 dark:text-white">
+              We are an adventurous lot. We don't just sell land, we offer priceless experiences.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto p-2">
+    <h2 class="text-center text-2xl font-semibold uppercase p-2 dark:text-white">
+      News and Events
+    </h2>
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mt-6 p-2">
+    	{
+    		events.map((item) => (
+		      <a href={`/events/${item.slug}`} class="bg-gray-100 dark:bg-stone-900 rounded-xl shadow-md">
+		        <figure>
+		          <img class="w-full rounded-tr-xl rounded-tl-xl" src={`${url}assets/${item.featured_image}?fit=cover&height=250&width=400&format=webp`} alt={item.event_name} width="400" height="250">
+		          <div class="px-2 bg-white dark:bg-stone-900">
+		            <h2 class="font-black pb-2 dark:text-white">
+		              {item.event_name}
+		            </h2>
+		            <figcaption class="font-medium font-serif">
+		              <div set:html={setExcerpt(item.event_description)} class="dark:text-white"></div>
+		            </figcaption>
+		          </div>
+		        </figure>
+		      </a>
+    		))
+    	}
+    </div>
+  </div>
+  <div class="container mx-auto p-2">
+    <h2 class="text-center text-2xl font-semibold uppercase p-2 dark:text-white">
+      Gallery
+    </h2>
+    <div class="grid md:grid-cols-3 mt-2 gap-4">
+    	{
+    		gallery.map((item) => (
+		      <a href={`/gallery/${item.slug}`} class="rounded-lg">
+		        <div class="h-64 bg-cover relative" style={`background-image: url(${import.meta.env.PUBLIC_CMS_LOCATION}assets/${item.featured_image}?fit=cover&height=500);`}>
+		          <div class="grid place-items-center place-content-center h-full bg-black bg-opacity-30">
+		            <h3 class="text-2xl lg:text-4xl font-semibold text-center text-white capitalize">
+		              {item.label}
+		            </h3>
+		          </div>
+		        </div>
+		      </a>
+    		))
+    	}
+    </div>
+  </div>
+  <div class="container mx-auto p-2">
+    <h2 class="text-center text-2xl font-semibold uppercase p-2 dark:text-white">
+      Visit our offices in nairobi
+    </h2>
+    <div class="grid bg-white shadow-md rounded-lg">
+      <iframe class="h-56 w-full" title="Google Map" width="600" height="450" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJ_ftT_fcZLxgREYfZAHaQuEA&key=AIzaSyCAymKZhNqCjCirV6ZaR3bRTIrFRjr9YAs"></iframe>
+    </div>
+  </div>
+  <Whatsapp client:load />
+</Layout>

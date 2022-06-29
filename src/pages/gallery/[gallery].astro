@@ -1,0 +1,92 @@
+---
+import Layout from "../../layouts/layout.astro"
+import Whatsapp from "../../components/Whatsapp.vue"
+import Intro from "../../components/Intro.vue"
+import Slider from "../../components/Slider.vue"
+import {Directus} from '@directus/sdk'
+
+// src/pages/gallery/[gallery].astro
+export async function getStaticPaths() {
+  const directus = new Directus(import.meta.env.PUBLIC_CMS_LOCATION)
+
+	const gallery_data = await directus.items('gallery').readByQuery({
+	  filter:{
+	    "_and":[
+	      {
+	        "status":{
+	          "_eq":"published"
+	        }
+	      }
+	    ]
+	  },
+	  fields:['slug'],
+	  limit:-1,
+	  sort:"-date_created"
+	})
+
+	const gallery = gallery_data.data
+
+  let store = []
+
+  gallery.map((item) => {
+    let data = {}
+    data.params = {}
+    data.params.gallery = item.slug
+    store.push(data)
+  })
+  
+  return store
+}
+
+const {gallery} = Astro.params
+const directus = new Directus(import.meta.env.PUBLIC_CMS_LOCATION)
+
+const image_data = await directus.items('gallery').readByQuery({
+	filter:{
+		"_and":[
+			{
+				"status":{
+					"_eq":"published"
+				}
+			},
+			{
+				"slug":{
+					"_eq":gallery
+				}
+			}
+		]
+	},
+	fields:['label,meta_description,featured_image,gallery_files.*'],
+	deep:{
+    'gallery_files':{
+      "_limit":150
+    }
+  }
+})
+
+const images = image_data.data[0]
+const total_pics = images.gallery_files.length
+
+const cover_page = `${import.meta.env.PUBLIC_CMS_LOCATION}assets/${images.featured_image}`
+---
+
+<Layout title={images.label} description={images.meta_description}>
+	<Intro 
+  	background={cover_page}
+  	title={images.label}
+		description=""
+  />
+  <div class="container mx-auto my-6">
+  	<div class="grid grid-cols-1 gap-2 my-2">
+    	<div class="bg-white dark:bg-stone-700 p-2 shadow-md rounded-lg relative">
+			  <Slider 
+			  	client:load 
+			  	totalpics={total_pics}
+			  	files={images.gallery_files}
+			  	url={import.meta.env.PUBLIC_CMS_LOCATION}
+			  />
+			</div>
+		</div>
+	</div>
+  <Whatsapp client:load />
+</Layout>

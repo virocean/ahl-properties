@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/layout.astro"
+import Intro from "../components/Intro.vue"
+import Whatsapp from "../components/Whatsapp.vue"
+
+const background_image = `/woodlands.webp`
+
+const faqs = [
+	{
+		"question":"Who can own land in Kenya?",
+		"answer":"Section 40 of the Constitution of Kenya stipulates that every person has the right to own land in any part of Kenya."
+	},
+	{
+		"question":"How are site visits booked?",
+		"answer":"You will begin by filling our online form, calling us or sending a Whatsapp message indicating your intention to view the property. We will work in collaboration with you to decide on how we shall conduct the visit"
+	},
+	{
+		"question":"Are site visits free?",
+		"answer":"Yes they are. The only requirement is you will have to pay for your own transportation to the property"
+	},
+	{
+		"question":"What if I want to view the property and I do not live nearby?",
+		"answer":"We provide all interested parties with accomodation and meals so that they may enjoy their site visit fully"
+	},
+	{
+		"question":"What about title deeds?",
+		"answer":"All our property have readily available title deeds to help show proof of ownership"
+	},
+	{
+		"question":"How is the property accessed?",
+		"answer":"There are access roads to the property already in place. Nevertheless, to clear all doubts, it is important to book a site visit"
+	},
+	{
+		"question":"Is the land under conservation easements",
+		"answer":"No at all."
+	},
+	{
+		"question":"What if there is a dispute?",
+		"answer":"Our property is well organized with clearly defined boundaries. However, should any dispute occur it will be resolved in accordance with law of Kenya governing land disputes"
+	}
+]
+---
+
+<Layout title="Frequently asked questions | AHL Properties" description="Find answers to all the common questions that you may be having with regards to property within Malindi">
+	<Intro
+  	background={background_image}
+  	title="Frequently Asked Questions"
+		description="Get answers to some of the most Frequently asked questions"
+  />
+  <div class="container mx-auto p-2">
+    <div class="grid gap-2 p-4 bg-white dark:bg-stone-900 shadow-lg hover:shadow-2xl my-4 rounded-lg">
+  		<h2 class="text-2xl font-semibold text-center dark:text-white">
+  			Frequently asked questions
+  		</h2>
+  		{
+  			faqs.map((item) => (
+		  		<div class="border-2 border-stone-300 p-2 cursor-pointer dark:text-white">
+		  			<div class="font-semibold text-lg capitalize">
+		  				{item.question}
+		  			</div>
+		  			<span class="text-stone-800 dark:text-white">
+		  				{item.answer}
+		  			</span>
+		  		</div>
+  			))
+  		}
+  	</div>
+  </div>
+  <Whatsapp client:load />
+</Layout>

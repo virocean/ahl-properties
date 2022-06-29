@@ -1,0 +1,109 @@
+---
+import Layout from '../../layouts/layout.astro'
+import Intro from '../../components/Intro.vue'
+import Whatsapp from '../../components/Whatsapp.vue'
+import BookProperty from '../../components/BookProperty.vue'
+import {Directus} from '@directus/sdk'
+
+const directus = new Directus(import.meta.env.PUBLIC_CMS_LOCATION)
+
+const plots_data = await directus.items('plots').readByQuery({
+  filter:{
+    "_and":[
+      {
+        "status":{
+          "_eq":"published"
+        }
+      }
+    ]
+  },
+  fields:['plot_name,slug,featured_image'],
+  limit:2,
+  sort:"-date_created"
+})
+
+const plots = plots_data.data
+---
+
+<Layout title="Property | AHL Properties" description="We have property available in Malindi at affordable prices">
+	<Intro 
+  	background="/premium-beach.webp"
+  	title="AHL Property"
+		description="<span class='italic lg:text-3xl'>'Buy land, they're not making it anymore'</span><br> - Mark Twain"
+  />
+  <div class="container mx-auto my-6 p-2">
+    <h2 class="text-2xl md:text-3xl lg:text-4xl uppercase text-center dark:text-white">
+      Our properties
+    </h2>
+    <p class="mt-6 dark:text-white text-xl text-center">
+    	We bring you carefully Selected, Premium, and Title-ready<br> 50*100 Beach Plots along the coast of Kenya.
+    </p>
+    <div class="bg-white dark:bg-stone-900">
+      <div class="grid md:grid-cols-2 gap-x-6 gap-y-4 mt-6 bg-white dark:bg-stone-900 shadow-md">
+        <div class="mt-2 p-2">
+          <h2 class="text-stone-700 text-2xl font-semibold capitalize dark:text-white">
+            property features
+          </h2>
+          <div class="tracking-widest">
+            <ul class="text-stone-800 dark:text-white text-base">
+              <li class="my-6">(a) 50 * 100 beach plots</li>
+              <li class="my-6">(b) Connected to the grid (Power)</li>
+              <li class="my-6">(c) Borehole</li>
+              <li class="my-6">(d) Gated community setting</li>
+              <li class="my-6">(e) 30km from Malindi airport</li>
+              <li class="my-6">(f) 140M from the beach</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-0">
+          <div class="relative py-12 flex content-center items-center justify-center">
+            <div class="absolute top-0 w-full h-full bg-center bg-cover" style="background-image: url(/premium-beach.webp)">
+              <span
+                id="blackOverlay"
+                class="w-full h-full absolute bg-black opacity-0"
+              ></span>
+            </div>
+            <div class="container h-72 relative mx-auto p-6 dark:p-0">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto my-12 bg-stone-100 dark:bg-stone-900 shadow-md rounded-md">
+  	<h2 class="text-2xl md:text-3xl lg:text-4xl capitalize text-center dark:text-white font-semibold">
+      View Properties
+    </h2>
+    <div class="grid sm:grid-cols-2 mt-2 gap-4">
+    	{
+    		plots.map((item) => (
+    			<a href={`/property/${item.slug}`} class="rounded-lg">
+		        <div class="h-64 bg-cover relative" style={`background-image: url(${import.meta.env.PUBLIC_CMS_LOCATION}assets/${item.featured_image}?fit=cover&height=500);`}>
+		          <div class="grid place-items-center place-content-center h-full bg-black bg-opacity-30">
+		            <h3 class="text-2xl lg:text-4xl font-semibold text-center text-white capitalize">
+		              {item.plot_name}
+		            </h3>
+		          </div>
+		        </div>
+		      </a>
+    		))
+    	}
+    </div>
+  </div>
+  <div class="container mx-auto my-12 bg-stone-100 dark:bg-stone-900 shadow-md rounded-md" id="book">
+      <h2 class="text-2xl md:text-3xl lg:text-4xl capitalize text-center dark:text-white font-semibold">
+        Book a site visit
+      </h2>
+      <p class="text-center text-stone-800">
+      	Secure your free site visits from Monday to Saturday.
+      </p>
+      <div class="grid md:grid-cols-2 p-2">
+	      <BookProperty 
+	      	client:load
+	      	classes="max-w-md" 
+	      />
+		    <img src="/woodlands.webp" class="my-auto h-full">
+		  </div>
+    </div>
+    <Whatsapp client:load />
+</Layout>
